@@ -84,7 +84,8 @@ public class ANim extends Component {
     private int anchorY = 0;
 
     
-    private int offsetanimY = 200;
+    public int offsetanimY = 200;
+    public int offsetanimX = 0;
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -92,6 +93,6 @@ public class ANim extends Component {
         g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.setColor(Color.black);
 
-        g2d.drawImage(img, -anchorX, offsetanimY+-anchorY, width - anchorX, offsetanimY+height - anchorY, offsetX, offsetY, offsetX + width, offsetY + height, null);
+        g2d.drawImage(img,offsetanimX+ -anchorX, offsetanimY-anchorY,offsetanimX+ width - anchorX, offsetanimY+height - anchorY, offsetX, offsetY, offsetX + width, offsetY + height, null);
     }
 }
