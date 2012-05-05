@@ -109,7 +109,8 @@ public class NewJFrame1 extends javax.swing.JFrame {
         anim.init((Integer) periodSpinner.getValue());
         anim.setSize(330, 330);
         animPanel.add(anim);
-
+        animPanel.invalidate();
+        
 
         //jScrollPane1.setSize(3800, 250);
 
@@ -199,6 +200,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
         animMoveYm = new javax.swing.JButton();
         animMoveXp = new javax.swing.JButton();
         animMoveXm = new javax.swing.JButton();
+        AnimZoomP = new javax.swing.JButton();
+        AnimZoomM = new javax.swing.JButton();
+        bigpicZoomP = new javax.swing.JButton();
+        bigpicZoomM = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -316,7 +321,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
                                 .addGap(32, 32, 32))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(animMoveYm)
-                                .addGap(31, 31, 31))))))
+                                .addGap(33, 33, 33))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,6 +335,34 @@ public class NewJFrame1 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(animMoveYm))
         );
+
+        AnimZoomP.setText("Z+");
+        AnimZoomP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnimZoomPActionPerformed(evt);
+            }
+        });
+
+        AnimZoomM.setText("Z-");
+        AnimZoomM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnimZoomMActionPerformed(evt);
+            }
+        });
+
+        bigpicZoomP.setText("Z+");
+        bigpicZoomP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bigpicZoomPActionPerformed(evt);
+            }
+        });
+
+        bigpicZoomM.setText("Z-");
+        bigpicZoomM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bigpicZoomMActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -398,17 +431,34 @@ public class NewJFrame1 extends javax.swing.JFrame {
                                     .addComponent(SaveButton))))))
                 .addGap(71, 71, 71)
                 .addComponent(animPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AnimZoomM)
+                            .addComponent(AnimZoomP))))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1090, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bigpicZoomP)
+                    .addComponent(bigpicZoomM))
+                .addGap(0, 36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(bigpicZoomP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bigpicZoomM)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(127, 127, 127)
@@ -469,6 +519,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
                                         .addGap(21, 21, 21))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(AnimZoomP)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AnimZoomM)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -517,6 +571,24 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private void animMoveXpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animMoveXpActionPerformed
        anim.offsetanimX = anim.offsetanimX+10;
     }//GEN-LAST:event_animMoveXpActionPerformed
+
+    private void AnimZoomMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimZoomMActionPerformed
+        ANim._currentZoom = ANim._currentZoom - 0.2f;
+    }//GEN-LAST:event_AnimZoomMActionPerformed
+
+    private void AnimZoomPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimZoomPActionPerformed
+       ANim._currentZoom = ANim._currentZoom + 0.2f;
+    }//GEN-LAST:event_AnimZoomPActionPerformed
+
+    private void bigpicZoomPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bigpicZoomPActionPerformed
+        BigPic._zoom = BigPic._zoom + 0.2f;
+        bigPic.redraw();
+    }//GEN-LAST:event_bigpicZoomPActionPerformed
+
+    private void bigpicZoomMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bigpicZoomMActionPerformed
+        BigPic._zoom = BigPic._zoom - 0.2f;
+        bigPic.redraw();
+    }//GEN-LAST:event_bigpicZoomMActionPerformed
     private void updateAnimsValue() {
         if (updateBigPic) {
             int currentFrame = (Integer) currentPicSpinner.getValue();
@@ -598,6 +670,8 @@ public class NewJFrame1 extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AnimZoomM;
+    private javax.swing.JButton AnimZoomP;
     private javax.swing.JButton SaveButton;
     private javax.swing.JSpinner anchorXSpinner;
     private javax.swing.JSpinner anchorYSpinner;
@@ -607,6 +681,8 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private javax.swing.JButton animMoveYp;
     private javax.swing.JComboBox animName;
     private javax.swing.JPanel animPanel;
+    private javax.swing.JButton bigpicZoomM;
+    private javax.swing.JButton bigpicZoomP;
     private javax.swing.JLabel cPic;
     private javax.swing.JSpinner currentPicSpinner;
     private javax.swing.JSpinner heightSpinner;

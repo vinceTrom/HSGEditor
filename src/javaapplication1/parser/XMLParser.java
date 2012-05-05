@@ -45,7 +45,7 @@ public class XMLParser {
             Anim a = values.anims.get(s);
             for (int j = 0; j < a.size(); j++) {
                 Element pic = new Element("image");
-                //if(s.equals("explo")){
+                //if(s.equals("explo2")){
                 if(false){
                     pic.setAttribute("x", "" + a.get(j).posX*3);
                 pic.setAttribute("y", "" + a.get(j).posY*3);

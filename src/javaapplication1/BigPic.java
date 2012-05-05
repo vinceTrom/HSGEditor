@@ -22,6 +22,7 @@ public class BigPic extends JLabel {
     public static int anchorX = 0;
     public static int anchorY = 0;
     public BufferedImage img = null;
+    public static float _zoom = 1;
 
     public BigPic() {
         super(new ImageIcon(NewJFrame1.PICTURE_PATH));
@@ -35,26 +36,32 @@ public class BigPic extends JLabel {
             //paint(getGraphics());
         } catch (IOException e) {e.printStackTrace();}      
     }
+    
+    public void redraw(){
+        paint(getGraphics());
+    }
 
     @Override
     public void paint(Graphics g) {
        // super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(img, 0, 0, null);
+       // g2d.drawImage(img, 0, 0, null);
         g2d.setColor(Color.white);
-        g2d.fillRect(0, 0, img.getWidth(), img.getHeight());
+        g2d.fillRect(0, 0, (int)(img.getWidth()*_zoom), (int)(img.getHeight()*_zoom));
         g2d.setColor(Color.black);
-        g2d.drawImage(img, 0, 0, null);
+        //g2d.drawImage(img, 0, 0, null
+          g2d.drawImage(img, 0, 0, (int)(img.getWidth()*_zoom), (int)(img.getHeight()*_zoom), null);
+
         g2d.setColor(Color.RED);
         
-        g2d.drawLine(posX, posY, posX + width, posY);
-        g2d.drawLine(posX, posY + height, posX + width, posY + height);
-        g2d.drawLine(posX, posY, posX, posY + height);
-        g2d.drawLine(posX + width, posY, posX + width, posY + height);
+        g2d.drawLine((int)(posX*_zoom), (int)(posY*_zoom), (int)((posX + width)*_zoom), (int)(posY*_zoom));
+        g2d.drawLine((int)(posX*_zoom), (int)((posY + height)*_zoom), (int)((posX + width)*_zoom), (int)((posY + height)*_zoom));
+        g2d.drawLine((int)(posX*_zoom), (int)(posY*_zoom), (int)(posX*_zoom), (int)((posY + height)*_zoom));
+        g2d.drawLine((int)((posX + width)*_zoom), (int)(posY*_zoom), (int)((posX + width)*_zoom), (int)((posY + height)*_zoom));
         
         g2d.setColor(Color.BLUE);
-        g2d.drawLine(posX +anchorX-5,posY + anchorY,posX +anchorX+5,posY + anchorY);
-         g2d.drawLine(posX +anchorX,posY + anchorY-5,posX +anchorX,posY + anchorY+5);
+        g2d.drawLine((int)((posX +anchorX-5)*_zoom),(int)((posY + anchorY)*_zoom),(int)((posX +anchorX+5)*_zoom),(int)((posY + anchorY)*_zoom));
+         g2d.drawLine((int)((posX +anchorX)*_zoom),(int)((posY + anchorY-5)*_zoom),(int)((posX +anchorX)*_zoom),(int)((posY + anchorY+5)*_zoom));
     
     }
 

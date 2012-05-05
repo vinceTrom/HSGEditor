@@ -18,6 +18,7 @@ public class ANim extends Component {
     private AnimsValues animsValues;
     private NewJFrame1 frame;
     private int currentpic = 0;
+    public static float _currentZoom = 1;
     BufferedImage img = null;
 
     public ANim(NewJFrame1 frame, AnimsValues animsValues) {
@@ -93,6 +94,8 @@ public class ANim extends Component {
         g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.setColor(Color.black);
 
-        g2d.drawImage(img,offsetanimX+ -anchorX, offsetanimY-anchorY,offsetanimX+ width - anchorX, offsetanimY+height - anchorY, offsetX, offsetY, offsetX + width, offsetY + height, null);
+        //g2d.drawImage(img,offsetanimX+ -anchorX, offsetanimY-anchorY,offsetanimX+ width - anchorX, offsetanimY+height - anchorY, offsetX, offsetY, offsetX + width, offsetY + height, null);
+        g2d.drawImage(img,offsetanimX+ -(int)(anchorX*_currentZoom), offsetanimY-(int)(anchorY*_currentZoom),offsetanimX+ (int)((width - anchorX)*_currentZoom), offsetanimY+(int)((height - anchorY)*_currentZoom), offsetX, offsetY, offsetX + width, offsetY + height, null);
+
     }
 }
