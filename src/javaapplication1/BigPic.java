@@ -1,6 +1,7 @@
 package javaapplication1;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -26,8 +27,7 @@ public class BigPic extends JLabel {
 
     public BigPic() {
         super(new ImageIcon(NewJFrame1.PICTURE_PATH));
-        init();
-       
+        init();    
     }
 
     public void init() {
@@ -39,6 +39,8 @@ public class BigPic extends JLabel {
     
     public void redraw(){
         paint(getGraphics());
+        setPreferredSize(new Dimension((int)(img.getWidth()*_zoom), (int)(img.getHeight()*_zoom)));
+        revalidate();
     }
 
     @Override
