@@ -42,6 +42,7 @@ public class XMLParser {
         for (String s : values.anims.keySet()) {
             Element anim = new Element("animation");
             anim.setAttribute("name", s);
+            anim.setAttribute("period","80");
             Anim a = values.anims.get(s);
             for (int j = 0; j < a.size(); j++) {
                 Element pic = new Element("image");

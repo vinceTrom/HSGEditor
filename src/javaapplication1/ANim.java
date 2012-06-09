@@ -30,6 +30,7 @@ public class ANim extends Component {
     TimerTask task;
 
     public void init(int per) {
+        currentpic = 0;
         if (th != null) 
             th.cancel();
         if(task!=null)
