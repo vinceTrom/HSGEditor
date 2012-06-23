@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.prefs.Preferences;
 import javaapplication1.AnimsValues.Picture;
 import javaapplication1.parser.PlayerXMLFile;
 import javaapplication1.parser.PlayerXMLFile.AnimationElement;
@@ -31,7 +32,8 @@ public class NewJFrame1 extends javax.swing.JFrame {
     public static String CURRENT_ANIM = "walk";
     private boolean updateBigPic = true;
     //public static String PICTURE_PATH = "C:/Users/Vince/Documents/AnimEditor/walkshaded.png";
-    public static String PICTURE_PATH = "C:/Users/Vince/Documents/AnimEditor/arm.png";
+    public static String PICTURE_PATH = "C:/Users/Vince/arm.png";
+    String PREF_NAME = "last_path";
     private String currentXmlFilePath;
 
     /**
@@ -39,12 +41,19 @@ public class NewJFrame1 extends javax.swing.JFrame {
      */
     public NewJFrame1() {
         initComponents();
-        JFileChooser chooser = new JFileChooser();
+        Preferences prefs = Preferences.userRoot().node("/com/oqs/editor");
+        String propertyValue = prefs.get(PREF_NAME, ""); // "a string"
+
+        JFileChooser chooser = null;
+        if(!propertyValue.equals(""))
+            chooser = new JFileChooser(propertyValue);
+        else
+            chooser = new JFileChooser();
         int returnVal = chooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             currentXmlFilePath = chooser.getSelectedFile().getAbsolutePath();
             PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("\\")) + "/" + CURRENT_ANIM + ".png";
-
+            prefs.put(PREF_NAME, currentXmlFilePath);
             openPlayerFile(currentXmlFilePath);
             //This is where a real application would open the file.
         }
