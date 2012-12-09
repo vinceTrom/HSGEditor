@@ -67,7 +67,15 @@ public class ANim extends Component {
             }
         };
     }
-
+/**
+ * Appelé lors de la fermeture de l'appli
+ */
+    public void stop(){
+        th.cancel();
+        th.purge();
+        task.cancel();
+    }
+    
     public void changeAnimPeriod(int per) {
         th.cancel();
         th.purge();

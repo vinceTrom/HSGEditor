@@ -7,12 +7,14 @@ package javaapplication1;
 import java.awt.GridBagConstraints;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.prefs.Preferences;
 import javaapplication1.AnimsValues.Picture;
 import javaapplication1.parser.PlayerXMLFile;
 import javaapplication1.parser.PlayerXMLFile.AnimationElement;
 import javaapplication1.parser.XMLParser;
+import javax.swing.ComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
@@ -110,6 +112,13 @@ public class NewJFrame1 extends javax.swing.JFrame {
 
         anim.changeAnimPeriod((Integer) periodSpinner.getValue());
 
+    }
+    /**
+     * Catch l'evenement de fermeture de la fenetre
+     * @param e 
+     */
+    public void windowClosing(WindowEvent e){
+        anim.stop();
     }
 
     private void openPlayerFile(String filepath) {
@@ -220,6 +229,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        characterType = new javax.swing.JComboBox();
         animPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         bigpicZoomP = new javax.swing.JButton();
@@ -363,12 +373,24 @@ public class NewJFrame1 extends javax.swing.JFrame {
         });
 
         animName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "walk", "leftarm", "jump", "fall", "armfire", "backfire", "explo", "explo2" }));
+        animName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                animNameActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        characterType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "player", "enemy" }));
+        characterType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                characterTypeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -377,44 +399,49 @@ public class NewJFrame1 extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(picNbSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(currentPicSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(animName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel2)))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(picNbSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(currentPicSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(animName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel2)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(42, 42, 42)
+                                .addComponent(jLabel7))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(72, 72, 72)
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(posYSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel4)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(72, 72, 72)
+                                                .addComponent(jLabel5)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(posYSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(66, 66, 66)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(66, 66, 66)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(posXSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(widthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(heightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(21, 21, 21)
+                                        .addComponent(posXSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(widthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(heightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(characterType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,7 +492,9 @@ public class NewJFrame1 extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(153, 153, 153)
+                                .addGap(99, 99, 99)
+                                .addComponent(characterType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
                                 .addComponent(animName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -514,10 +543,8 @@ public class NewJFrame1 extends javax.swing.JFrame {
                                         .addGap(77, 77, 77)
                                         .addComponent(jButton1))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(137, 137, 137)
-                                        .addGap(5, 5, 5)
-                                        .addComponent(periodSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(46, 46, 46)))
+                                        .addGap(142, 142, 142)
+                                        .addComponent(periodSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(44, 44, 44)))))
                 .addGap(44, 44, 44))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -668,6 +695,19 @@ public class NewJFrame1 extends javax.swing.JFrame {
         BigPic._zoom = BigPic._zoom - 0.2f;
         bigPic.redraw();
     }//GEN-LAST:event_bigpicZoomMActionPerformed
+
+    private void animNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_animNameActionPerformed
+
+    private void characterTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_characterTypeActionPerformed
+        if(characterType.getSelectedIndex()==0)
+        animName.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  "walk", "leftarm", "jump", "fall", "armfire", "backfire", "explo", "explo2" }));
+else
+        animName.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  "walk", "die1", "die2", "die3" }));
+
+        
+    }//GEN-LAST:event_characterTypeActionPerformed
     private void updateAnimsValue() {
         if (updateBigPic) {
             int currentFrame = (Integer) currentPicSpinner.getValue();
@@ -763,6 +803,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private javax.swing.JButton bigpicZoomM;
     private javax.swing.JButton bigpicZoomP;
     private javax.swing.JLabel cPic;
+    private javax.swing.JComboBox characterType;
     private javax.swing.JSpinner currentPicSpinner;
     private javax.swing.JSpinner heightSpinner;
     private javax.swing.JButton jButton1;
