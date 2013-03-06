@@ -1,7 +1,5 @@
 package javaapplication1.parser;
 
-import java.io.File;
-
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -10,14 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javaapplication1.AnimsValues;
 import javaapplication1.AnimsValues.Anim;
-import javax.xml.parsers.*;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
-import org.jdom.output.XMLOutputter;
-import org.jdom.transform.JDOMResult;
 import org.jdom.transform.JDOMSource;
-import org.w3c.dom.*;
 
 public class XMLParser {
 
@@ -46,22 +39,17 @@ public class XMLParser {
             Anim a = values.anims.get(s);
             for (int j = 0; j < a.size(); j++) {
                 Element pic = new Element("image");
-                //if(s.equals("explo2")){
-                if(false){
-                    pic.setAttribute("x", "" + a.get(j).posX*3);
-                pic.setAttribute("y", "" + a.get(j).posY*3);
-                pic.setAttribute("width", "" + a.get(j).width*3);
-                pic.setAttribute("height", "" + a.get(j).height*3);
-                pic.setAttribute("anchorX", "" + a.get(j).anchorX*3);
-                pic.setAttribute("anchorY", "" + a.get(j).anchorY*3);
-            }else{
+
                 pic.setAttribute("x", "" + a.get(j).posX);
                 pic.setAttribute("y", "" + a.get(j).posY);
                 pic.setAttribute("width", "" + a.get(j).width);
                 pic.setAttribute("height", "" + a.get(j).height);
                 pic.setAttribute("anchorX", "" + a.get(j).anchorX);
                 pic.setAttribute("anchorY", "" + a.get(j).anchorY);
-}
+                pic.setAttribute("fireanchorX", "" + a.get(j).fireAnchorX);
+                pic.setAttribute("fireanchorY", "" + a.get(j).fireAnchorY);
+                pic.setAttribute("floorpos", "" + a.get(j).floorPos);
+
                 anim.addContent(pic);
             }
             anims.addContent(anim);

@@ -54,18 +54,36 @@ public class PlayerXMLFile {
 			return Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("height").getValue());
 		}
 		
-		public Point getOrig(int pic){
+		public Point getImageOrig(int pic){
 			Point p = new Point();
 			p.x = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("x").getValue());
 			p.y = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("y").getValue());
 			return p;
 		}
 		
-		public Point getAnchor(int pic){
+		public Point getImageAnchor(int pic){
 			Point p = new Point();
 			p.x = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("anchorX").getValue());
 			p.y = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("anchorY").getValue());
 			return p;
 		}
+                
+                public Point getFireOrig(int pic){
+                    Point p = new Point(0,0);
+                    try{
+			p.x = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("fireanchorX").getValue());
+			p.y = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("fireanchorY").getValue());
+                    }catch(Exception e){}
+                        return p;
+                }
+                
+                public int getFloorLevel(int pic){
+                int pos =0;
+                    try{
+			pos = Integer.parseInt(((Element)anim.getChildren("image").get(pic)).getAttribute("floorpos").getValue());
+                    }catch(Exception e){}
+                        return pos;
+                }
+                
 	}
 }

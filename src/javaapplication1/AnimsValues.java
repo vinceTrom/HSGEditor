@@ -21,14 +21,17 @@ public class AnimsValues {
         return anims.get(animName);
     }
     public class Anim extends HashMap<Integer,Picture>{
-    public void addPicture(int index, int posX, int posY, int width, int height, int anchorX, int anchorY){
+    public void addPicture(int index, int posX, int posY, int width, int height, int imageAnchorX, int imageAnchorY,int fireAnchorX, int fireAnchorY,int floorPos){
         Picture p = new Picture();
         p.posX = posX;
         p.posY = posY;
         p.width = width;
         p.height = height;
-        p.anchorX = anchorX;
-        p.anchorY = anchorY;
+        p.anchorX = imageAnchorX;
+        p.anchorY = imageAnchorY;
+        p.fireAnchorX = fireAnchorX;
+        p.fireAnchorY = fireAnchorY;
+        p.floorPos = floorPos;
         put(index, p);
     }
     };
@@ -40,5 +43,8 @@ public class AnimsValues {
                 public  int height=0;
                 public  int anchorX=0;
                 public  int anchorY=0;
+                public int fireAnchorX=0;
+                public int fireAnchorY=0;
+                public int floorPos=0;
             }
 }
