@@ -59,7 +59,7 @@ public class ANim extends Component {
                 width = p.width;
                 height = p.height;
                 anchorX = p.anchorX - 120;
-                anchorY = p.anchorY;
+                anchorY =  p.floorPos - height;
                 paint(getGraphics());
                 frame.refreshCurrentAnimPic(currentpic);
                 currentpic = (currentpic + 1) % animsValues.getAnim(NewJFrame1.CURRENT_ANIM).size();
@@ -104,7 +104,7 @@ public class ANim extends Component {
         g2d.setColor(Color.black);
 
         //g2d.drawImage(img,offsetanimX+ -anchorX, offsetanimY-anchorY,offsetanimX+ width - anchorX, offsetanimY+height - anchorY, offsetX, offsetY, offsetX + width, offsetY + height, null);
-        g2d.drawImage(img,offsetanimX+ -(int)(anchorX*_currentZoom), offsetanimY-(int)(anchorY*_currentZoom),offsetanimX+ (int)((width - anchorX)*_currentZoom), offsetanimY+(int)((height - anchorY)*_currentZoom), offsetX, offsetY, offsetX + width, offsetY + height, null);
+        g2d.drawImage(img,offsetanimX+ -(int)(anchorX*_currentZoom), offsetanimY+(int)(anchorY*_currentZoom),offsetanimX+ (int)((width - anchorX)*_currentZoom), offsetanimY+(int)((height + anchorY)*_currentZoom), offsetX, offsetY, offsetX + width, offsetY + height, null);
 
     }
 }

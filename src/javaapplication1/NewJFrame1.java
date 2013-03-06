@@ -54,7 +54,13 @@ public class NewJFrame1 extends javax.swing.JFrame {
         int returnVal = chooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             currentXmlFilePath = chooser.getSelectedFile().getAbsolutePath();
-            PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("\\")) + "/" + CURRENT_ANIM + ".png";
+            System.out.println("XMK file path: "+currentXmlFilePath);
+            String OS = System.getProperty("os.name");
+            if(OS.contains("Mac"))
+                PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("/")) + "/" + CURRENT_ANIM + ".png";
+            else
+                PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("\\")) + "/" + CURRENT_ANIM + ".png";
+            
             prefs.put(PREF_NAME, currentXmlFilePath);
             openPlayerFile(currentXmlFilePath);
             //This is where a real application would open the file.
@@ -68,7 +74,11 @@ public class NewJFrame1 extends javax.swing.JFrame {
                 CURRENT_ANIM = (String) animName.getItemAt(animName.getSelectedIndex());
                 picNbSpinner.setValue(animValues.getAnim(CURRENT_ANIM).size());
                 currentPicSpinner.setValue(0);
-                PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("\\")) + "/" + CURRENT_ANIM + ".png";
+                String OS = System.getProperty("os.name");
+                if(OS.contains("Mac"))
+                    PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("/")) + "/" + CURRENT_ANIM + ".png";
+                else
+                    PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("\\")) + "/" + CURRENT_ANIM + ".png";
                 anim.init((Integer) periodSpinner.getValue());
                 bigPic = new BigPic();
                 jScrollPane1.getViewport().add(bigPic);
