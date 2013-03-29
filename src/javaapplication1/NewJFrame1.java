@@ -854,7 +854,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
         if(characterType.getSelectedIndex()==0)
         animName.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  "walk", "leftarm", "jump", "fall", "armfire", "backfire", "explo", "explo2" }));
 else
-        animName.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  "walk", "die1", "die2", "die3", "tanning", "calling", "calling2", "dancing1","dancing2", "dancing3", "biker" }));
+        animName.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  "outhouse", "walk", "die1", "die2", "die3", "tanning", "calling", "calling2", "dancing1","dancing2", "dancing3", "biker" }));
 
         
     }//GEN-LAST:event_characterTypeActionPerformed
