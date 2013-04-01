@@ -80,8 +80,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
                 else
                     PICTURE_PATH = currentXmlFilePath.substring(0, currentXmlFilePath.lastIndexOf("\\")) + "/" + CURRENT_ANIM + ".png";
                 anim.init((Integer) periodSpinner.getValue());
-                bigPic = new BigPic();
+                bigPic = new BigPic(NewJFrame1.this);
                 jScrollPane1.getViewport().add(bigPic);
+                refreshSpinnerContent();
+                bigPic.redraw();
                 //bigPic.init();
 
             }
@@ -99,17 +101,15 @@ public class NewJFrame1 extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent e) {
                 updateBigPic = false;
-                refreshPicData();
+                refreshSpinnerContent();
             }
         });
         ChangeListener picValuesChanges = new ChangeListener() {
 
             @Override
             public void stateChanged(ChangeEvent e) {
-
-                updateAnimsValue();
-                refreshPicData();
-
+                updateAnimsValueFromInterface();
+                //refreshSpinnerContent();
             }
         };
 
@@ -148,15 +148,12 @@ public class NewJFrame1 extends javax.swing.JFrame {
         animPanel.add(anim, c);
         animPanel.invalidate();
         
-
-        //jScrollPane1.setSize(3800, 250);
-
         PlayerXMLFile xmlfile = new PlayerXMLFile(filepath);
         initAnimValues(xmlfile);
         picNbSpinner.setValue(animValues.anims.get(CURRENT_ANIM).size());
         currentPicSpinner.setValue(0);
         fillSPinnerFromPicNumber(0);
-        bigPic = new BigPic();
+        bigPic = new BigPic(this);
         jScrollPane1.getViewport().add(bigPic);
         jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -789,15 +786,15 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changed
-        refreshPicData();
+        refreshSpinnerContent();
     }//GEN-LAST:event_changed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        refreshPicData();
+        refreshSpinnerContent();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void updateAnimsValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAnimsValueActionPerformed
-        updateAnimsValue();
+        updateAnimsValueFromInterface();
     }//GEN-LAST:event_updateAnimsValueActionPerformed
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
@@ -847,7 +844,6 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_bigpicZoomMActionPerformed
 
     private void animNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animNameActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_animNameActionPerformed
 
     private void characterTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_characterTypeActionPerformed
@@ -858,7 +854,7 @@ else
 
         
     }//GEN-LAST:event_characterTypeActionPerformed
-    private void updateAnimsValue() {
+    private void updateAnimsValueFromInterface() {
         if (updateBigPic) {
             int currentFrame = (Integer) currentPicSpinner.getValue();
 
@@ -873,35 +869,45 @@ else
             p.fireAnchorX = (Integer) fireAnchorXSpinner.getValue();
             p.fireAnchorY = (Integer) fireAnchorYSpinner.getValue();
             p.floorPos = (Integer) floorPosYSpinner.getValue();;
+            
         }
     }
-
-    private void refreshPicData() {
-        System.out.println("update");
-        if (ready) {
-            System.out.println("update");
+    
+       public void updateAnimsValueFromBigPic(int posX, int posY, int width, int height, int imageAnchorX, int imageAnchorY, int fireAnchorX, int fireAnchorY, int floorPos) {
+ 
             int currentFrame = (Integer) currentPicSpinner.getValue();
-            System.out.println("cuurent: " + currentFrame);
+            Picture p = animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get((Integer) currentFrame);
+            p.width = width;
+            p.height = height;
+            p.posX = posX;
+            System.out.println("updateAnimsValueFromBigPic posX:"+posX);
+            System.out.println("updateAnimsValueFromBigPic p.posX:"+p.posX);
+            p.posY = posY;
+            p.anchorX = imageAnchorX;
+            p.anchorY = imageAnchorY;
+            p.fireAnchorX = fireAnchorX;
+            p.fireAnchorY = fireAnchorY;
+            p.floorPos = floorPos;
+            refreshSpinnerContent();       
+    }
+
+    private void refreshSpinnerContent() {
+        if (ready) {
+            int currentFrame = (Integer) currentPicSpinner.getValue();
             Picture p = animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get((Integer) currentFrame);
             widthSpinner.setValue(p.width);
             heightSpinner.setValue(p.height);
             posXSpinner.setValue(p.posX);
+             System.out.println("refreshPicData p.posX:"+p.posX);
             posYSpinner.setValue(p.posY);
             imageAnchorXSpinner.setValue(p.anchorX);
             imageAnchorYSpinner.setValue(p.anchorY);
             fireAnchorXSpinner.setValue(p.fireAnchorX);
             fireAnchorYSpinner.setValue(p.fireAnchorY);
             floorPosYSpinner.setValue(p.floorPos);
-            bigPic.width = p.width;
-            bigPic.height = p.height;
-            bigPic.posX = p.posX;
-            bigPic.posY = p.posY;
-            bigPic.imageAnchorX = p.anchorX;
-            bigPic.imageAnchorY = p.anchorY;
-            bigPic.fireAnchorX = p.fireAnchorX;
-            bigPic.fireAnchorY = p.fireAnchorY;
-            bigPic.floorPos = p.floorPos;
-            bigPic.repaint();
+            
+            bigPic.updatePicInfo(p.posX, p.posY, p.width, p.height, p.anchorX, p.anchorY, p.fireAnchorX, p.fireAnchorY,p.floorPos);
+
             updateBigPic = true;
         }
     }
