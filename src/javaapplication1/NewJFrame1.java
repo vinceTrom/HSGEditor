@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileFilter;
  * @author Vince
  */
 public class NewJFrame1 extends javax.swing.JFrame {
-
+    
     private boolean ready = false;
     BigPic bigPic;
     AnimsValues animValues;
@@ -37,7 +37,9 @@ public class NewJFrame1 extends javax.swing.JFrame {
     public static String PICTURE_PATH = "C:/Users/Vince/arm.png";
     String PREF_NAME = "last_path";
     private String currentXmlFilePath;
-
+    private boolean _spinnerValueChangedEnabled = true;
+    
+    
     /**
      * Creates new form NewJFrame1
      */
@@ -45,7 +47,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
         initComponents();
         Preferences prefs = Preferences.userRoot().node("/com/oqs/editor");
         String propertyValue = prefs.get(PREF_NAME, ""); // "a string"
-
+        
         JFileChooser chooser = null;
         if(!propertyValue.equals(""))
             chooser = new JFileChooser(propertyValue);
@@ -65,10 +67,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
             openPlayerFile(currentXmlFilePath);
             //This is where a real application would open the file.
         }
-
-
+        
+        
         animName.addItemListener(new ItemListener() {
-
+            
             @Override
             public void itemStateChanged(ItemEvent e) {
                 CURRENT_ANIM = (String) animName.getItemAt(animName.getSelectedIndex());
@@ -85,34 +87,40 @@ public class NewJFrame1 extends javax.swing.JFrame {
                 refreshSpinnerContent();
                 bigPic.redraw();
                 //bigPic.init();
-
+                
             }
         });
-
+        
         periodSpinner.addChangeListener(new ChangeListener() {
-
+            
             @Override
             public void stateChanged(ChangeEvent e) {
                 anim.changeAnimPeriod((Integer) periodSpinner.getValue());
             }
         });
         currentPicSpinner.addChangeListener(new ChangeListener() {
-
+            
             @Override
             public void stateChanged(ChangeEvent e) {
                 updateBigPic = false;
+                _spinnerValueChangedEnabled = false;
                 refreshSpinnerContent();
+                _spinnerValueChangedEnabled = true;
             }
         });
+        
         ChangeListener picValuesChanges = new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent e) {
-                updateAnimsValueFromInterface();
-                //refreshSpinnerContent();
+                updateBigPic = true;
+                if(_spinnerValueChangedEnabled){
+                    updateAnimsValueFromInterface();
+                    
+                    //refreshSpinnerContent();
+                }
             }
         };
-
+        
         posXSpinner.addChangeListener(picValuesChanges);
         posYSpinner.addChangeListener(picValuesChanges);
         widthSpinner.addChangeListener(picValuesChanges);
@@ -122,20 +130,20 @@ public class NewJFrame1 extends javax.swing.JFrame {
         fireAnchorXSpinner.addChangeListener(picValuesChanges);
         fireAnchorYSpinner.addChangeListener(picValuesChanges);
         floorPosYSpinner.addChangeListener(picValuesChanges);
-
+        
         anim.changeAnimPeriod((Integer) periodSpinner.getValue());
-
+    
     }
     /**
      * Catch l'evenement de fermeture de la fenetre
-     * @param e 
+     * @param e
      */
     public void windowClosing(WindowEvent e){
         anim.stop();
     }
-
+    
     private void openPlayerFile(String filepath) {
-
+        
         animValues = new AnimsValues();
         anim = new ANim(this, animValues);
         anim.init((Integer) periodSpinner.getValue());
@@ -159,11 +167,11 @@ public class NewJFrame1 extends javax.swing.JFrame {
         jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         ready = true;
     }
-
+    
     public void refreshCurrentAnimPic(int nb) {
         cPic.setText("" + nb);
     }
-
+    
     private void fillSPinnerFromPicNumber(int index) {
         Picture p = animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get(index);
         posXSpinner.setValue(p.posX);
@@ -173,7 +181,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
         imageAnchorXSpinner.setValue(p.anchorX);
         imageAnchorYSpinner.setValue(p.anchorY);
     }
-
+    
     private void initAnimValues(PlayerXMLFile xmlfile) {
         for (String s : xmlfile.anims.keySet()) {
             animValues.addAnim(s);
@@ -188,11 +196,11 @@ public class NewJFrame1 extends javax.swing.JFrame {
                 int anchorY = a.getImageAnchor(j).y;
                 anima.addPicture(j, posX, posY, width, height, anchorX, anchorY, a.getFireOrig(j).x, a.getFireOrig(j).y, a.getFloorLevel(j));
             }
-
+        
         }
-
+    
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -784,65 +792,65 @@ public class NewJFrame1 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void changed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changed
         refreshSpinnerContent();
     }//GEN-LAST:event_changed
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         refreshSpinnerContent();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void updateAnimsValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAnimsValueActionPerformed
         updateAnimsValueFromInterface();
     }//GEN-LAST:event_updateAnimsValueActionPerformed
-
+    
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
         JFileChooser chooser = new JFileChooser();
-
+        
         int returnVal = chooser.showSaveDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = chooser.getSelectedFile().getAbsolutePath();
             XMLParser.saveXmlFile(animValues, path);
         }
     }//GEN-LAST:event_SaveButtonActionPerformed
-
+    
     private void animMoveYpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animMoveYpActionPerformed
-         anim.offsetanimY = anim.offsetanimY-10;
+        anim.offsetanimY = anim.offsetanimY-10;
     }//GEN-LAST:event_animMoveYpActionPerformed
-
+    
     private void animMoveYmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animMoveYmActionPerformed
-         anim.offsetanimY = anim.offsetanimY+10;
+        anim.offsetanimY = anim.offsetanimY+10;
     }//GEN-LAST:event_animMoveYmActionPerformed
-
+    
     private void animMoveXmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animMoveXmActionPerformed
-         anim.offsetanimX = anim.offsetanimX-10;
+        anim.offsetanimX = anim.offsetanimX-10;
     }//GEN-LAST:event_animMoveXmActionPerformed
-
+    
     private void animMoveXpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animMoveXpActionPerformed
-       anim.offsetanimX = anim.offsetanimX+10;
+        anim.offsetanimX = anim.offsetanimX+10;
     }//GEN-LAST:event_animMoveXpActionPerformed
-
+    
     private void AnimZoomMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimZoomMActionPerformed
         ANim._currentZoom = ANim._currentZoom - 0.2f;
         anim.offsetanimX = (int)(anim.offsetanimX+animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get( 0).width*0.4f);
     }//GEN-LAST:event_AnimZoomMActionPerformed
-
+    
     private void AnimZoomPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimZoomPActionPerformed
-       ANim._currentZoom = ANim._currentZoom + 0.2f;
-       anim.offsetanimX = (int)(anim.offsetanimX-animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get( 0).width*0.4f);
+        ANim._currentZoom = ANim._currentZoom + 0.2f;
+        anim.offsetanimX = (int)(anim.offsetanimX-animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get( 0).width*0.4f);
     }//GEN-LAST:event_AnimZoomPActionPerformed
-
+    
     private void bigpicZoomPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bigpicZoomPActionPerformed
         BigPic._zoom = BigPic._zoom + 0.2f;
         bigPic.redraw();
     }//GEN-LAST:event_bigpicZoomPActionPerformed
-
+    
     private void bigpicZoomMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bigpicZoomMActionPerformed
         BigPic._zoom = BigPic._zoom - 0.2f;
         bigPic.redraw();
     }//GEN-LAST:event_bigpicZoomMActionPerformed
-
+    
     private void animNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animNameActionPerformed
     }//GEN-LAST:event_animNameActionPerformed
 
@@ -868,8 +876,9 @@ else
             p.anchorY = (Integer) imageAnchorYSpinner.getValue();
             p.fireAnchorX = (Integer) fireAnchorXSpinner.getValue();
             p.fireAnchorY = (Integer) fireAnchorYSpinner.getValue();
-            p.floorPos = (Integer) floorPosYSpinner.getValue();;
+            p.floorPos = (Integer) floorPosYSpinner.getValue();
             
+            updateValueOfBigPic(p);         
         }
     }
     
@@ -888,29 +897,35 @@ else
             p.fireAnchorX = fireAnchorX;
             p.fireAnchorY = fireAnchorY;
             p.floorPos = floorPos;
-            refreshSpinnerContent();       
-    }
-
-    private void refreshSpinnerContent() {
-        if (ready) {
-            int currentFrame = (Integer) currentPicSpinner.getValue();
-            Picture p = animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get((Integer) currentFrame);
-            widthSpinner.setValue(p.width);
-            heightSpinner.setValue(p.height);
-            posXSpinner.setValue(p.posX);
-             System.out.println("refreshPicData p.posX:"+p.posX);
-            posYSpinner.setValue(p.posY);
-            imageAnchorXSpinner.setValue(p.anchorX);
-            imageAnchorYSpinner.setValue(p.anchorY);
-            fireAnchorXSpinner.setValue(p.fireAnchorX);
-            fireAnchorYSpinner.setValue(p.fireAnchorY);
-            floorPosYSpinner.setValue(p.floorPos);
-            
-            bigPic.updatePicInfo(p.posX, p.posY, p.width, p.height, p.anchorX, p.anchorY, p.fireAnchorX, p.fireAnchorY,p.floorPos);
-
-            updateBigPic = true;
-        }
-    }
+            _spinnerValueChangedEnabled = false;
+            refreshSpinnerContent();
+            _spinnerValueChangedEnabled = true;
+       }
+       
+       private void refreshSpinnerContent() {
+           if (ready) {
+               int currentFrame = (Integer) currentPicSpinner.getValue();
+               Picture p = animValues.getAnim((String) animName.getItemAt(animName.getSelectedIndex())).get((Integer) currentFrame);
+               widthSpinner.setValue(p.width);
+               heightSpinner.setValue(p.height);
+               posXSpinner.setValue(p.posX);
+               System.out.println("refreshPicData p.posX:"+p.posX);
+               posYSpinner.setValue(p.posY);
+               imageAnchorXSpinner.setValue(p.anchorX);
+               imageAnchorYSpinner.setValue(p.anchorY);
+               fireAnchorXSpinner.setValue(p.fireAnchorX);
+               fireAnchorYSpinner.setValue(p.fireAnchorY);
+               floorPosYSpinner.setValue(p.floorPos);
+               
+               updateValueOfBigPic(p);
+               updateBigPic = true;
+           }
+       }
+       
+       private void updateValueOfBigPic(Picture p){
+           bigPic.updatePicInfo(p.posX, p.posY, p.width, p.height, p.anchorX, p.anchorY, p.fireAnchorX, p.fireAnchorY,p.floorPos);
+           
+       }
 
     /**
      * @param args the command line arguments
