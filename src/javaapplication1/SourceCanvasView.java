@@ -16,9 +16,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class BigPic extends JLabel {
+public class SourceCanvasView extends JLabel {
     
-    private NewJFrame1 jframe;
+    private MainFrame jframe;
     
     private static int posX = 0;
     private static int posY = 0;
@@ -65,8 +65,8 @@ public class BigPic extends JLabel {
     
     
     
-    public BigPic(NewJFrame1 jframe) {
-        super(new ImageIcon(NewJFrame1.PICTURE_PATH));
+    public SourceCanvasView(MainFrame jframe) {
+        super(new ImageIcon(MainFrame.PICTURE_PATH));
         this.jframe = jframe;
         init();
     }
@@ -74,7 +74,7 @@ public class BigPic extends JLabel {
     
     public void init() {
         try {
-            img = ImageIO.read(new File(NewJFrame1.PICTURE_PATH));
+            img = ImageIO.read(new File(MainFrame.PICTURE_PATH));
             //paint(getGraphics());
         } catch (IOException e) {e.printStackTrace();}
         

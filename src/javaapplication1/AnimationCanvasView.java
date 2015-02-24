@@ -13,15 +13,15 @@ import javaapplication1.AnimsValues.Picture;
 
 import javax.imageio.ImageIO;
 
-public class ANim extends Component {
+public class AnimationCanvasView extends Component {
 
     private AnimsValues animsValues;
-    private NewJFrame1 frame;
+    private MainFrame frame;
     private int currentpic = 0;
     public static float _currentZoom = 1;
     BufferedImage img = null;
 
-    public ANim(NewJFrame1 frame, AnimsValues animsValues) {
+    public AnimationCanvasView(MainFrame frame, AnimsValues animsValues) {
         super();
         this.animsValues = animsValues;
         this.frame = frame;
@@ -38,8 +38,8 @@ public class ANim extends Component {
         
         th = new Timer();
         try {
-            System.out.println("path:" + NewJFrame1.PICTURE_PATH);
-            img = ImageIO.read(new File(NewJFrame1.PICTURE_PATH));
+            System.out.println("path:" + MainFrame.PICTURE_PATH);
+            img = ImageIO.read(new File(MainFrame.PICTURE_PATH));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class ANim extends Component {
 
             @Override
             public void run() {
-                Picture p = animsValues.getAnim(NewJFrame1.CURRENT_ANIM).get((Integer) currentpic);
+                Picture p = animsValues.getAnim(MainFrame.CURRENT_ANIM).get((Integer) currentpic);
                 offsetX = p.posX;
                 offsetY = p.posY;
                 width = p.width;
@@ -62,7 +62,7 @@ public class ANim extends Component {
                 anchorY =  p.floorPos - height;
                 paint(getGraphics());
                 frame.refreshCurrentAnimPic(currentpic);
-                currentpic = (currentpic + 1) % animsValues.getAnim(NewJFrame1.CURRENT_ANIM).size();
+                currentpic = (currentpic + 1) % animsValues.getAnim(MainFrame.CURRENT_ANIM).size();
 
             }
         };
